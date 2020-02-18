@@ -1,5 +1,3 @@
-#include <algorithm>
-#include <string>
 #include "reverse_string.h"
 
 namespace reverse_string {

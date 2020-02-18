@@ -1,4 +1,3 @@
-#include <string>
 #include "reverse_string.h"
 #include "test/catch.hpp"
 
