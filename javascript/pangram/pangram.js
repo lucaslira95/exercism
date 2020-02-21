@@ -5,9 +5,8 @@
 
 export const isPangram = text => {
     let table = {};
-    text.split('').map(char =>{
-        if(/[a-z]/i.test(char) === true) table[char.toLowerCase()] = true;
+    text.toLowerCase().split('').map(char => {
+        if (/[a-z]/.test(char) === true) table[char] = true;
     });
-    if(Object.keys(table).length === 26) return true;
-    else return false;
+    return Object.keys(table).length === 26;
 };
