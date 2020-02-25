@@ -3,10 +3,4 @@
 // convenience to get you started writing code faster.
 //
 
-export const isPangram = text => {
-    let table = new Set;
-    text.toLowerCase().split('').map(char => {
-        if (/[a-z]/.test(char) === true) table.add(char);
-    });
-    return table.size === 26;
-};
+export const isPangram = text => new Set(text.toLowerCase().match(/[a-z]/gi)).size === 26;
