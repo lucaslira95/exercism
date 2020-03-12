@@ -3,36 +3,46 @@
 // convenience to get you started writing code faster.
 //
 
-export const convert = (number, base, toBase) => {
-    if (base === 10 && toBase === 2) return decToBin(number, toBase);
-    else if (base === 2 && toBase === 10) return binToDec(number, base);
-};
-
-const toInteger = x => {
-    x = Number(x);
-    return x < 0 ? Math.ceil(x) : Math.floor(x);
-}
-
-const decToBin = (number, toBase) => {
-    let filteredNumber = Number(number.toString().split(',').join('')),
-        binary = [];
-
-    while (filteredNumber > 1) {
-        binary.push(filteredNumber % toBase);
-        filteredNumber = toInteger(filteredNumber / toBase);
-    }
-    binary.push(filteredNumber);
-    if (binary[0] === 0) {
-        binary.splice(0, 1);
-        binary.push(0);
-    }
-    return binary;
-}
-
-const binToDec = (number, base) => {
-    let i = number.length - 1, accumulator = 0;
-    number.forEach(num => {
-        accumulator += num * Math.pow(base, i--);
-    });
-    return accumulator.toString().split('').map(alg => parseInt(alg));
-}
+export const convert = (digits, inBase, toBase) => {
+    const checkDigits = digits => {
+      if (!digits.length) {
+        throw new Error('Input has wrong format');
+      }
+      digits.forEach((value, index) => {
+        if (
+          (digits.length > 1 && index === 0 && value === 0) ||
+          value < 0 ||
+          value >= inBase ||
+          !Number.isInteger(value)
+        ) {
+          throw new Error('Input has wrong format');
+        }
+      });
+    };
+  
+    const checkBase = (base, name) => {
+      if (!base || !Number.isInteger(base) || base < 2) {
+        throw new Error(`Wrong ${name} base`);
+      }
+    };
+  
+    checkBase(inBase, 'input');
+    checkBase(toBase, 'output');
+    checkDigits(digits);
+  
+    const num = digits.reduce(
+      (acc, cur, index, arr) => acc + cur * inBase ** (arr.length - index - 1),
+      0,
+    );
+  
+    const convertRecursive = (remains, res = []) => {
+      if (remains) {
+        res.push(remains % toBase);
+        return convertRecursive(Math.floor(remains / toBase), res);
+      } else {
+        return res.length ? res.reverse() : [0];
+      }
+    };
+  
+    return convertRecursive(num);
+  };
