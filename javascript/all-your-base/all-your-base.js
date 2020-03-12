@@ -8,14 +8,24 @@ export const convert = (number, base, toBase) => {
     else if (base === 2 && toBase === 10) return binToDec(number, base);
 };
 
+const toInteger = x => {
+    x = Number(x);
+    return x < 0 ? Math.ceil(x) : Math.floor(x);
+}
+
 const decToBin = (number, toBase) => {
-    let filteredNumber = 0, binary = [];
-    number.forEach(num => filteredNumber += num);
+    let filteredNumber = Number(number.toString().split(',').join('')),
+        binary = [];
+
     while (filteredNumber > 1) {
         binary.push(filteredNumber % toBase);
-        filteredNumber = Math.floor(filteredNumber / toBase);
+        filteredNumber = toInteger(filteredNumber / toBase);
     }
     binary.push(filteredNumber);
+    if (binary[0] === 0) {
+        binary.splice(0, 1);
+        binary.push(0);
+    }
     return binary;
 }
 
