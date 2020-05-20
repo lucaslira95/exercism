@@ -17,7 +17,7 @@ namespace space_age
         static constexpr double NeptuneYearInSeconds = EarthYearInSeconds * 164.79132;
 
     public:
-        explicit space_age(long long int age_in_seconds) { this->Seconds = age_in_seconds; }
+        explicit space_age(long long int age_in_seconds) : Seconds(age_in_seconds) {}
         long long int seconds() const { return Seconds; }
         double on_earth() const { return Seconds / EarthYearInSeconds; }
         double on_mercury() const { return Seconds / MercuryYearInSeconds; }
